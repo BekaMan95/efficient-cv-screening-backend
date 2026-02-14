@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: spicy-music
+    env: docker
+    plan: free
+    autoDeploy: true
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: CORS_ORIGIN
+        value: https://spicy-music.com

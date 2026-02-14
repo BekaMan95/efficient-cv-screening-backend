@@ -1,0 +1,41 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: efficient-cv-screening
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: efficient_cv_screening
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+    networks:
+      - efficient-cv-screening-network
+
+  app:
+    build: .
+    container_name: efficient-cv-screening-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      MONGO_URI_LOCAL: mongodb://admin:password123@mongodb:27017/efficient_cv_screening?authSource=admin
+      PORT: 3000
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+    networks:
+      - efficient-cv-screening-network
+    command: npm run dev
+
+volumes:
+  mongodb_data:
+
+networks:
+  efficient-cv-screening-network:
+    driver: bridge
