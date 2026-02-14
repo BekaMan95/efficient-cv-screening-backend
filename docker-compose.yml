@@ -4,7 +4,7 @@ services:
     container_name: efficient-cv-screening
     restart: unless-stopped
     ports:
-      - "27017:27017"
+      - "27010:27010"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password123
@@ -20,11 +20,11 @@ services:
     container_name: efficient-cv-screening-backend
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "8000:8000"
     environment:
       NODE_ENV: development
-      MONGO_URI_LOCAL: mongodb://admin:password123@mongodb:27017/efficient_cv_screening?authSource=admin
-      PORT: 3000
+      MONGO_URI_LOCAL: mongodb://admin:password123@mongodb:27010/efficient_cv_screening?authSource=admin
+      PORT: 8000
     depends_on:
       - mongodb
     volumes:
